@@ -5,6 +5,7 @@ import pygame
 
 def main():
     pygame.init()
+    pygame.font.init()
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
@@ -20,7 +21,7 @@ def main():
         # update scene
         currentScene.handleEvents()
         currentScene.update()
-        currentScene.draw()
+        currentScene.draw(screen)
         pygame.display.flip()
         clock.tick(60)
 
