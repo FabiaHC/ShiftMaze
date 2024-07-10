@@ -1,5 +1,8 @@
-import pygame
 import config
+from TileBoardGenerator import tileGenerator
+
+import pygame
+
 
 class Scene:
     def __init__(self):
@@ -43,9 +46,7 @@ class MainMenu(Scene):
 class GamePlay(Scene):
     def __init__(self):
         super().__init__()
-        tileset = pygame.image.load("assets/fantasy-tileset.png")
-        cutoutTileRect = pygame.Rect(64, 32, 32, 32)
-        self.cutoutTileIMG = tileset.subsurface(cutoutTileRect)
+        self.tile = tileGenerator()[0]
 
     def update(self):
         pass
@@ -57,6 +58,6 @@ class GamePlay(Scene):
         screen.fill(config.green2)
         xOffset = 160
         yOffset = 60
-        for x in range(15):
-            for y in range(15):
-                screen.blit(self.cutoutTileIMG, (xOffset+x*32, yOffset+y*32))
+        for x in range(5):
+            for y in range(5):
+                screen.blit(self.tile, (xOffset+x*96, yOffset+y*96))
