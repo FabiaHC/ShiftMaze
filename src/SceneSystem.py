@@ -1,8 +1,7 @@
 import config
-from TileBoard import tileGenerator
+from TileBoard import tileGenerator, generateTileBoard
 
 import pygame
-import random
 
 
 class Scene:
@@ -47,6 +46,7 @@ class MainMenu(Scene):
 class GamePlay(Scene):
     def __init__(self):
         super().__init__()
+        self.tileBoard = generateTileBoard()
         self.tiles = tileGenerator()
 
     def update(self):
@@ -61,4 +61,4 @@ class GamePlay(Scene):
         yOffset = 60
         for x in range(5):
             for y in range(5):
-                screen.blit(self.tiles[random.randint(0, 1)], (xOffset+x*96, yOffset+y*96))
+                screen.blit(self.tiles[self.tileBoard[x*5+y]], (xOffset+x*96, yOffset+y*96))

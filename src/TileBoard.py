@@ -1,6 +1,7 @@
 import config
 
 import pygame
+import random
 
 def tileGenerator():
     tileset = pygame.image.load("assets/fantasy-tileset.png")
@@ -26,3 +27,10 @@ def tileGenerator():
     tiles.append(tileTypeB)
 
     return tiles
+
+
+def generateTileBoard():
+    tileBoard = [None]*25
+    for i in range(25):
+        tileBoard[i] = random.randint(0, 1)
+    return tileBoard
