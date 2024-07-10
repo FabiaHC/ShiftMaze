@@ -20,6 +20,9 @@ def tileGenerator():
     tileTypeA.blit(cutoutTileIMG, (32, 64))
     tileTypeA.blit(cutoutTileIMG, (64, 64))
 
+    tileTypeB = pygame.transform.rotate(tileTypeA, 90)
+
     tiles.append(tileTypeA)
+    tiles.append(tileTypeB)
 
     return tiles
