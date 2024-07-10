@@ -1,5 +1,5 @@
 import config
-from TileBoardGenerator import tileGenerator
+from TileBoard import tileGenerator
 
 import pygame
 
