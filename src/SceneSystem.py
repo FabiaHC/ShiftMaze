@@ -43,6 +43,9 @@ class MainMenu(Scene):
 class GamePlay(Scene):
     def __init__(self):
         super().__init__()
+        tileset = pygame.image.load("assets/fantasy-tileset.png")
+        cutoutTileRect = pygame.Rect(64, 32, 32, 32)
+        self.cutoutTileIMG = tileset.subsurface(cutoutTileRect)
 
     def update(self):
         pass
@@ -52,3 +55,8 @@ class GamePlay(Scene):
 
     def draw(self, screen):
         screen.fill(config.green2)
+        xOffset = 160
+        yOffset = 60
+        for x in range(15):
+            for y in range(15):
+                screen.blit(self.cutoutTileIMG, (xOffset+x*32, yOffset+y*32))
