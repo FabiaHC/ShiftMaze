@@ -8,7 +8,7 @@ class Scene:
     def update(self):
         pass
 
-    def handleEvents(self):
+    def handleEvents(self, events):
         pass
 
     def draw(self, screen):
@@ -29,10 +29,26 @@ class MainMenu(Scene):
     def update(self):
         pass
 
-    def handleEvents(self):
-        pass
+    def handleEvents(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                return GamePlay()
 
     def draw(self, screen):
         screen.fill(config.green3)
         screen.blit(self.titleText, self.titleTextRect)
         screen.blit(self.startText, self.startTextRect)
+
+
+class GamePlay(Scene):
+    def __init__(self):
+        super().__init__()
+
+    def update(self):
+        pass
+
+    def handleEvents(self, events):
+        pass
+
+    def draw(self, screen):
+        screen.fill(config.green2)

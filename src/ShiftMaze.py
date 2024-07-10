@@ -19,7 +19,9 @@ def main():
                 running = False
 
         # update scene
-        currentScene.handleEvents()
+        changeScene = currentScene.handleEvents(events)
+        if changeScene:
+            currentScene = changeScene
         currentScene.update()
         currentScene.draw(screen)
         pygame.display.flip()
