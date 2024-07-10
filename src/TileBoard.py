@@ -5,8 +5,10 @@ import random
 
 def tileGenerator():
     tileset = pygame.image.load("assets/fantasy-tileset.png")
-    cutoutTileRect = pygame.Rect(64, 32, 32, 32)
-    cutoutTileIMG = tileset.subsurface(cutoutTileRect)
+    wallTileRect = pygame.Rect(3*32, 1*32, 32, 32)
+    wattTileImg = tileset.subsurface(wallTileRect)
+    groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
+    groundTileImg = tileset.subsurface(groundTileRect)
 
     tiles = []
 
@@ -14,14 +16,27 @@ def tileGenerator():
     tileBase.fill(config.green2)
 
     tileTypeA = tileBase.copy()
-    tileTypeA.blit(cutoutTileIMG, (0, 0))
-    tileTypeA.blit(cutoutTileIMG, (32, 0))
-    tileTypeA.blit(cutoutTileIMG, (64, 0))
-    tileTypeA.blit(cutoutTileIMG, (0, 64))
-    tileTypeA.blit(cutoutTileIMG, (32, 64))
-    tileTypeA.blit(cutoutTileIMG, (64, 64))
+    tileTypeA.blit(wattTileImg, (0, 0))
+    tileTypeA.blit(wattTileImg, (32, 0))
+    tileTypeA.blit(wattTileImg, (64, 0))
+    tileTypeA.blit(groundTileImg, (0, 32))
+    tileTypeA.blit(groundTileImg, (32, 32))
+    tileTypeA.blit(groundTileImg, (64, 32))
+    tileTypeA.blit(wattTileImg, (0, 64))
+    tileTypeA.blit(wattTileImg, (32, 64))
+    tileTypeA.blit(wattTileImg, (64, 64))
+
+    """
+    borderCol = config.green4
+    pygame.draw.line(tileTypeA, borderCol, (0, 0), (0, 95))
+    pygame.draw.line(tileTypeA, borderCol, (0, 0), (95, 0))
+    pygame.draw.line(tileTypeA, borderCol, (0, 95), (95, 95))
+    pygame.draw.line(tileTypeA, borderCol, (95, 0), (95, 95))
+    """
 
     tileTypeB = pygame.transform.rotate(tileTypeA, 90)
+
+
 
     tiles.append(tileTypeA)
     tiles.append(tileTypeB)
