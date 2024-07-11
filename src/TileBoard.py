@@ -6,7 +6,7 @@ import random
 def tileGenerator():
     tileset = pygame.image.load("assets/fantasy-tileset.png")
     wallTileRect = pygame.Rect(3*32, 1*32, 32, 32)
-    wattTileImg = tileset.subsurface(wallTileRect)
+    wallTileImg = tileset.subsurface(wallTileRect)
     groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
     groundTileImg = tileset.subsurface(groundTileRect)
 
@@ -17,15 +17,15 @@ def tileGenerator():
 
 
     tileTypeA = tileBase.copy()
-    tileTypeA.blit(wattTileImg, (0, 0))
-    tileTypeA.blit(wattTileImg, (32, 0))
-    tileTypeA.blit(wattTileImg, (64, 0))
+    tileTypeA.blit(wallTileImg, (0, 0))
+    tileTypeA.blit(wallTileImg, (32, 0))
+    tileTypeA.blit(wallTileImg, (64, 0))
     tileTypeA.blit(groundTileImg, (0, 32))
     tileTypeA.blit(groundTileImg, (32, 32))
     tileTypeA.blit(groundTileImg, (64, 32))
-    tileTypeA.blit(wattTileImg, (0, 64))
-    tileTypeA.blit(wattTileImg, (32, 64))
-    tileTypeA.blit(wattTileImg, (64, 64))
+    tileTypeA.blit(wallTileImg, (0, 64))
+    tileTypeA.blit(wallTileImg, (32, 64))
+    tileTypeA.blit(wallTileImg, (64, 64))
 
 
     tileTypeB = pygame.transform.rotate(tileTypeA, 90)
