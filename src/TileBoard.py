@@ -33,9 +33,24 @@ def tileGenerator():
     tileTypeA.blit(wallTileImg, (0, 32))
     tileTypeA.blit(wallTileImg, (64, 32))
 
+    tileTypeC = tileTypeA.copy()
+    tileTypeC.blit(groundTileImg, (0, 32))
+
+    tileTypeD = tileTypeA.copy()
+    tileTypeD.blit(groundTileImg, (64, 32))
+
+    tileTypeE = tileTypeB.copy()
+    tileTypeE.blit(groundTileImg, (32, 0))
+
+    tileTypeF = tileTypeB.copy()
+    tileTypeF.blit(groundTileImg, (32, 64))
 
     tiles.append(tileTypeA)
     tiles.append(tileTypeB)
+    tiles.append(tileTypeC)
+    tiles.append(tileTypeD)
+    tiles.append(tileTypeE)
+    tiles.append(tileTypeF)
 
     return tiles
 
@@ -43,5 +58,5 @@ def tileGenerator():
 def generateTileBoard():
     tileBoard = [None]*25
     for i in range(25):
-        tileBoard[i] = random.randint(0, 1)
+        tileBoard[i] = random.randint(0, 5)
     return tileBoard
