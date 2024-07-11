@@ -1,5 +1,5 @@
 import config
-from TileBoard import tileGenerator, generateTileBoard
+from TileBoard import tileGenerator, generateTileBoard, shiftRow
 
 import pygame
 
@@ -48,12 +48,24 @@ class GamePlay(Scene):
         super().__init__()
         self.tileBoard = generateTileBoard()
         self.tiles = tileGenerator()
+        self.selectedRow = 0
 
     def update(self):
         pass
 
     def handleEvents(self, events):
-        pass
+        for event in events:
+            if event.type == pygame.KEYUP:  #shift rows
+                if event.key == pygame.K_LEFT:
+                    shiftRow(self.tileBoard, self.selectedRow)
+                elif event.key == pygame.K_RIGHT:
+                    shiftRow(self.tileBoard, self.selectedRow, False)
+                elif event.key == pygame.K_DOWN:
+                    self.selectedRow = (self.selectedRow + 1) % 5
+                elif event.key == pygame.K_UP:
+                    self.selectedRow = (self.selectedRow - 1) % 5
+                    if self.selectedRow < 0:
+                        self.selectedRow = 4
 
     def draw(self, screen):
         screen.fill(config.green2)

@@ -61,3 +61,7 @@ def generateTileBoard():
         for x in range(5):
             tileBoard[y][x] = random.randint(0, 5)
     return tileBoard
+
+def shiftRow(tileBoard, row, left=True):
+    rowList = tileBoard[row]
+    tileBoard[row] = rowList[1:] + [rowList[0]] if left else [rowList[-1]] + rowList[:-1]
