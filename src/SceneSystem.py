@@ -68,7 +68,7 @@ class GamePlay(Scene):
                         self.selectedRow = 4
 
     def draw(self, screen):
-        screen.fill(config.green2)
+        screen.fill(config.green3)
         xOffset = 160
         yOffset = 60
         for y in range(5):
