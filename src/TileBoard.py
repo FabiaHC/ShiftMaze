@@ -27,9 +27,11 @@ def tileGenerator():
     tileTypeA.blit(wallTileImg, (32, 64))
     tileTypeA.blit(wallTileImg, (64, 64))
 
-
-    tileTypeB = pygame.transform.rotate(tileTypeA, 90)
-
+    tileTypeB = tileTypeA.copy()
+    tileTypeA.blit(groundTileImg, (32, 0))
+    tileTypeA.blit(groundTileImg, (32, 64))
+    tileTypeA.blit(wallTileImg, (0, 32))
+    tileTypeA.blit(wallTileImg, (64, 32))
 
 
     tiles.append(tileTypeA)
