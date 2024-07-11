@@ -56,7 +56,8 @@ def tileGenerator():
 
 
 def generateTileBoard():
-    tileBoard = [None]*25
-    for i in range(25):
-        tileBoard[i] = random.randint(0, 5)
+    tileBoard = [[None for _ in range(5)] for _ in range(5)]
+    for y in range(5):
+        for x in range(5):
+            tileBoard[y][x] = random.randint(0, 5)
     return tileBoard

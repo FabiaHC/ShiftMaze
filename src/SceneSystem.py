@@ -59,6 +59,6 @@ class GamePlay(Scene):
         screen.fill(config.green2)
         xOffset = 160
         yOffset = 60
-        for x in range(5):
-            for y in range(5):
-                screen.blit(self.tiles[self.tileBoard[x*5+y]], (xOffset+x*96, yOffset+y*96))
+        for y in range(5):
+            for x in range(5):
+                screen.blit(self.tiles[self.tileBoard[y][x]], (xOffset+x*96, yOffset+y*96))
