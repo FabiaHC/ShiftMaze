@@ -9,6 +9,7 @@ def tileGenerator():
     wallTileImg = tileset.subsurface(wallTileRect)
     groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
     groundTileImg = tileset.subsurface(groundTileRect)
+    groundTileImg.fill(config.green2)
 
     tiles = []
 
