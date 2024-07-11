@@ -15,6 +15,7 @@ def tileGenerator():
     tileBase = pygame.Surface((96, 96))
     tileBase.fill(config.green2)
 
+
     tileTypeA = tileBase.copy()
     tileTypeA.blit(wattTileImg, (0, 0))
     tileTypeA.blit(wattTileImg, (32, 0))
@@ -26,13 +27,6 @@ def tileGenerator():
     tileTypeA.blit(wattTileImg, (32, 64))
     tileTypeA.blit(wattTileImg, (64, 64))
 
-    """
-    borderCol = config.green4
-    pygame.draw.line(tileTypeA, borderCol, (0, 0), (0, 95))
-    pygame.draw.line(tileTypeA, borderCol, (0, 0), (95, 0))
-    pygame.draw.line(tileTypeA, borderCol, (0, 95), (95, 95))
-    pygame.draw.line(tileTypeA, borderCol, (95, 0), (95, 95))
-    """
 
     tileTypeB = pygame.transform.rotate(tileTypeA, 90)
 
