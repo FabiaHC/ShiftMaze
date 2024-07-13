@@ -67,6 +67,19 @@ class GamePlay(Scene):
                     if self.selectedRow < 0:
                         self.selectedRow = 4
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePos = pygame.mouse.get_pos()
+                x, y = mousePos
+                SBW = 3*16  #shift button width
+                x -= 160
+                y -= 60
+                if y < 5*96:
+                    row = y // 96
+                    if x > -SBW and x < 0:
+                        shiftRow(self.tileBoard, row, False)
+                    elif x > 5*96 and x < 5*96+SBW:
+                        shiftRow(self.tileBoard, row, True)
+
     def draw(self, screen):
         screen.fill(config.green3)
         xOffset = 160
