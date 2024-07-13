@@ -7,12 +7,16 @@ def tileGenerator():
     tileset = pygame.image.load("assets/fantasy-tileset.png")
     wallTileRect = pygame.Rect(3*32, 1*32, 32, 32)
     wallTileImg = tileset.subsurface(wallTileRect)
+
     groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
     groundTileImg = tileset.subsurface(groundTileRect)
     groundTileImg.fill(config.green2)
 
-    tiles = []
+    arrowTileRect = pygame.Rect(4*16, 47*16, 16, 16)
+    arrowTileImg = tileset.subsurface(arrowTileRect)
 
+
+    tiles = []
     tileBase = pygame.Surface((96, 96))
     tileBase.fill(config.green2)
 
@@ -46,12 +50,26 @@ def tileGenerator():
     tileTypeF = tileTypeB.copy()
     tileTypeF.blit(groundTileImg, (32, 64))
 
+
+    leftArrowTile = pygame.Surface((3*16, 96))
+    leftArrowTile.fill(config.green4)
+    leftArrowTile.blit(arrowTileImg, (1*16, 1*16))
+    leftArrowTile.blit(arrowTileImg, (1*16, 2*16))
+    leftArrowTile.blit(arrowTileImg, (1*16, 3*16))
+    leftArrowTile.blit(arrowTileImg, (1*16, 4*16))
+    pygame.draw.rect(leftArrowTile, config.green1, (0, 0, 3*16, 6*16), 1)
+
+    rightArrowTile = pygame.transform.flip(leftArrowTile, True, False)
+
+
     tiles.append(tileTypeA)
     tiles.append(tileTypeB)
     tiles.append(tileTypeC)
     tiles.append(tileTypeD)
     tiles.append(tileTypeE)
     tiles.append(tileTypeF)
+    tiles.append(leftArrowTile)
+    tiles.append(rightArrowTile)
 
     return tiles
 
