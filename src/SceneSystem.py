@@ -55,18 +55,6 @@ class GamePlay(Scene):
 
     def handleEvents(self, events):
         for event in events:
-            if event.type == pygame.KEYUP:  #shift rows
-                if event.key == pygame.K_LEFT:
-                    shiftRow(self.tileBoard, self.selectedRow)
-                elif event.key == pygame.K_RIGHT:
-                    shiftRow(self.tileBoard, self.selectedRow, False)
-                elif event.key == pygame.K_DOWN:
-                    self.selectedRow = (self.selectedRow + 1) % 5
-                elif event.key == pygame.K_UP:
-                    self.selectedRow = (self.selectedRow - 1) % 5
-                    if self.selectedRow < 0:
-                        self.selectedRow = 4
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousePos = pygame.mouse.get_pos()
                 x, y = mousePos
