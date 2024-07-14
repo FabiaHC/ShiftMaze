@@ -88,3 +88,15 @@ def generateTileBoard():
 def shiftRow(tileBoard, row, left=True):
     rowList = tileBoard[row]
     tileBoard[row] = rowList[1:] + [rowList[0]] if left else [rowList[-1]] + rowList[:-1]
+
+def shiftColumn(tileBoard, column, down=True):
+    if down:
+        lastValue = tileBoard[-1][column]  #save the last value of the column
+        for row in range(4, 0, -1):
+            tileBoard[row][column] = tileBoard[row - 1][column]
+        tileBoard[0][column] = lastValue
+    else:
+        firstValue = tileBoard[0][column]  #save the first value of the column
+        for row in range(4):
+            tileBoard[row][column] = tileBoard[row + 1][column]
+        tileBoard[-1][column] = firstValue
