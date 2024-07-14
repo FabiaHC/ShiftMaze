@@ -124,6 +124,23 @@ class GamePlay(Scene):
                 else:
                     screen.blit(self.tiles[self.tileBoard[y][x]], (xOffset+x*96, yOffset+y*96))
 
+        if self.slideOffset != 0:
+            if self.slidingCol != None:
+                tempTileCol = self.slidingCol                                       #either first or last tile
+                tempTileRow = 2 + (self.slideDirection*2)
+                tempTileX = tempTileCol*96                                          #96*2 is the median point
+                tempTileY = 96*2 - (self.slideDirection*96*3) + self.slideOffset
+
+            elif self.slidingRow != None:
+                tempTileCol = 2 + (self.slideDirection*2)                           #either first or last tile
+                tempTileRow = self.slidingRow
+                tempTileX = 96*2 - (self.slideDirection*96*3) + self.slideOffset    #96*2 is the median point
+                tempTileY = tempTileRow*96
+
+            screen.blit(self.tiles[self.tileBoard[tempTileRow][tempTileCol]], (xOffset+tempTileX, yOffset+tempTileY))
+
+
+
 
         for y in range(5):
             screen.blit(self.tiles[6], (xOffset-3*16, yOffset+y*6*16))
