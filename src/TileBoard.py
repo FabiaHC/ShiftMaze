@@ -60,6 +60,8 @@ def tileGenerator():
     pygame.draw.rect(leftArrowTile, config.green1, (0, 0, 3*16, 6*16), 1)
 
     rightArrowTile = pygame.transform.flip(leftArrowTile, True, False)
+    upArrowTile = pygame.transform.rotate(leftArrowTile, 90)
+    downArrowTile = pygame.transform.flip(upArrowTile, False, True)
 
 
     tiles.append(tileTypeA)
@@ -70,6 +72,8 @@ def tileGenerator():
     tiles.append(tileTypeF)
     tiles.append(leftArrowTile)
     tiles.append(rightArrowTile)
+    tiles.append(downArrowTile)
+    tiles.append(upArrowTile)
 
     return tiles
 
