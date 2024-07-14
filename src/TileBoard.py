@@ -51,13 +51,14 @@ def tileGenerator():
     tileTypeF.blit(groundTileImg, (32, 64))
 
 
-    leftArrowTile = pygame.Surface((3*16, 96))
+    leftArrowTile = pygame.Surface((3*16 + 3*16, 96))
     leftArrowTile.fill(config.green4)
-    leftArrowTile.blit(arrowTileImg, (1*16, 1*16))
-    leftArrowTile.blit(arrowTileImg, (1*16, 2*16))
-    leftArrowTile.blit(arrowTileImg, (1*16, 3*16))
-    leftArrowTile.blit(arrowTileImg, (1*16, 4*16))
-    pygame.draw.rect(leftArrowTile, config.green1, (0, 0, 3*16, 6*16), 1)
+    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 1*16))
+    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 2*16))
+    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 3*16))
+    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 4*16))
+    pygame.draw.rect(leftArrowTile, config.green1, (3*16, 0, 3*16+3*16, 6*16), 1)
+    pygame.draw.rect(leftArrowTile, config.green3, (0, 0, 3*16, 96), 0)
 
     rightArrowTile = pygame.transform.flip(leftArrowTile, True, False)
     upArrowTile = pygame.transform.rotate(leftArrowTile, 90)

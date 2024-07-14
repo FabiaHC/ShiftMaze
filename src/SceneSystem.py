@@ -143,8 +143,8 @@ class GamePlay(Scene):
 
 
         for y in range(5):
-            screen.blit(self.tiles[6], (xOffset-3*16, yOffset+y*6*16))
+            screen.blit(self.tiles[6], (xOffset - (3*16 + 3*16), yOffset+y*6*16))   #(3*16 + 3*16) is used because it used to only be half the width
             screen.blit(self.tiles[7], (xOffset+5*96, yOffset+y*6*16))
         for x in range(5):
-            screen.blit(self.tiles[8], (xOffset+x*96, yOffset-3*16))
+            screen.blit(self.tiles[8], (xOffset+x*96, yOffset - (3*16 + 3*16)))     #same here
             screen.blit(self.tiles[9], (xOffset+x*96, yOffset+5*96))
