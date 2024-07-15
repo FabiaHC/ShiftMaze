@@ -1,5 +1,6 @@
 import config
 from TileBoard import tileGenerator, generateTileBoard, shiftRow, shiftColumn, findRoute
+from characters import loadPlayerImgs
 
 import pygame
 
@@ -48,7 +49,7 @@ class GamePlay(Scene):
         super().__init__()
         self.tileBoard = generateTileBoard()
         self.tiles = tileGenerator()
-        self.selectedRow = 0
+        self.playerImgs = loadPlayerImgs()
 
         self.slideOffset = 0
         self.slideDirection = 1
@@ -146,3 +147,5 @@ class GamePlay(Scene):
         for x in range(5):
             screen.blit(self.tiles["downArrow"], (xOffset+x*96, yOffset - (3*16 + 3*16)))     #same here
             screen.blit(self.tiles["upArrow"], (xOffset+x*96, yOffset+5*96))
+
+        screen.blit(self.playerImgs["right"][1], (xOffset+32, yOffset+32))
