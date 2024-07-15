@@ -1,5 +1,5 @@
 import config
-from TileBoard import tileGenerator, generateTileBoard, shiftRow, shiftColumn
+from TileBoard import tileGenerator, generateTileBoard, shiftRow, shiftColumn, findRoute
 
 import pygame
 

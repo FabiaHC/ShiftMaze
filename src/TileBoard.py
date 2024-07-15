@@ -2,6 +2,7 @@ import config
 
 import pygame
 import random
+import collections
 
 def tileGenerator():
     tileset = pygame.image.load("assets/fantasy-tileset.png")
@@ -21,22 +22,22 @@ def tileGenerator():
     tileBase.fill(config.green2)
 
 
-    straightNSTile = tileBase.copy()
-    straightNSTile.blit(wallTileImg, (0, 0))
-    straightNSTile.blit(wallTileImg, (32, 0))
-    straightNSTile.blit(wallTileImg, (64, 0))
-    straightNSTile.blit(groundTileImg, (0, 32))
-    straightNSTile.blit(groundTileImg, (32, 32))
-    straightNSTile.blit(groundTileImg, (64, 32))
-    straightNSTile.blit(wallTileImg, (0, 64))
-    straightNSTile.blit(wallTileImg, (32, 64))
-    straightNSTile.blit(wallTileImg, (64, 64))
+    straightEWTile = tileBase.copy()
+    straightEWTile.blit(wallTileImg, (0, 0))
+    straightEWTile.blit(wallTileImg, (32, 0))
+    straightEWTile.blit(wallTileImg, (64, 0))
+    straightEWTile.blit(groundTileImg, (0, 32))
+    straightEWTile.blit(groundTileImg, (32, 32))
+    straightEWTile.blit(groundTileImg, (64, 32))
+    straightEWTile.blit(wallTileImg, (0, 64))
+    straightEWTile.blit(wallTileImg, (32, 64))
+    straightEWTile.blit(wallTileImg, (64, 64))
 
-    straightEWTile = straightNSTile.copy()
-    straightEWTile.blit(groundTileImg, (32, 0))
-    straightEWTile.blit(groundTileImg, (32, 64))
-    straightEWTile.blit(wallTileImg, (0, 32))
-    straightEWTile.blit(wallTileImg, (64, 32))
+    straightNSTile = straightEWTile.copy()
+    straightNSTile.blit(groundTileImg, (32, 0))
+    straightNSTile.blit(groundTileImg, (32, 64))
+    straightNSTile.blit(wallTileImg, (0, 32))
+    straightNSTile.blit(wallTileImg, (64, 32))
 
     TTileNES = straightNSTile.copy()
     TTileNES.blit(groundTileImg, (0, 32))
@@ -101,3 +102,36 @@ def shiftColumn(tileBoard, column, down=True):
         for row in range(4):
             tileBoard[row][column] = tileBoard[row + 1][column]
         tileBoard[-1][column] = firstValue
+
+def findRoute(tileBoard, start, end):
+    DIRECTIONS = {
+    "N": (-1, 0),
+    "S": (1, 0),
+    "E": (0, -1),
+    "W": (0, 1)
+    }
+
+    rows, cols = 5, 5
+    queue = collections.deque([(start, [start])])
+    visited = set()
+    visited.add(start)
+
+    while queue:
+        (r, c), path = queue.popleft()
+        if (r, c) == end:
+            return path
+
+        tileType = tileBoard[r][c]
+        exits = config.tileTypes[tileType]
+
+        for exit in exits:
+            dr, dc = DIRECTIONS[exit]
+            nr, nc = r + dr, c + dc
+
+            if 0 <= nr < rows and 0 <= nc < cols and (nr, nc) not in visited:
+                entry = {"N": "S", "S": "N", "E": "W", "W": "E"}[exit]
+                if entry in config.tileTypes[tileBoard[nr][nc]]:
+                    visited.add((nr, nc))
+                    queue.append(((nr, nc), path + [(nr, nc)]))
+
+    return None
