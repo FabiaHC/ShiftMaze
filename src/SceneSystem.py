@@ -140,8 +140,6 @@ class GamePlay(Scene):
             screen.blit(self.tiles[self.tileBoard[tempTileRow][tempTileCol]], (xOffset+tempTileX, yOffset+tempTileY))
 
 
-
-
         for y in range(5):
             screen.blit(self.tiles["rightArrow"], (xOffset - (3*16 + 3*16), yOffset+y*6*16))   #(3*16 + 3*16) is used because it used to only be half the width
             screen.blit(self.tiles["leftArrow"], (xOffset+5*96, yOffset+y*6*16))
