@@ -143,8 +143,8 @@ class GamePlay(Scene):
 
 
         for y in range(5):
-            screen.blit(self.tiles["leftArrow"], (xOffset - (3*16 + 3*16), yOffset+y*6*16))   #(3*16 + 3*16) is used because it used to only be half the width
-            screen.blit(self.tiles["rightArrow"], (xOffset+5*96, yOffset+y*6*16))
+            screen.blit(self.tiles["rightArrow"], (xOffset - (3*16 + 3*16), yOffset+y*6*16))   #(3*16 + 3*16) is used because it used to only be half the width
+            screen.blit(self.tiles["leftArrow"], (xOffset+5*96, yOffset+y*6*16))
         for x in range(5):
             screen.blit(self.tiles["downArrow"], (xOffset+x*96, yOffset - (3*16 + 3*16)))     #same here
             screen.blit(self.tiles["upArrow"], (xOffset+x*96, yOffset+5*96))

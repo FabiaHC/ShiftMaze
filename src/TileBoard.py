@@ -51,17 +51,17 @@ def tileGenerator():
     TTileEWS.blit(groundTileImg, (32, 64))
 
 
-    leftArrowTile = pygame.Surface((3*16 + 3*16, 96))
-    leftArrowTile.fill(config.green4)
-    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 1*16))
-    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 2*16))
-    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 3*16))
-    leftArrowTile.blit(arrowTileImg, (3*16 + 1*16, 4*16))
-    pygame.draw.rect(leftArrowTile, config.green1, (3*16, 0, 3*16+3*16, 6*16), 1)
-    pygame.draw.rect(leftArrowTile, config.green3, (0, 0, 3*16, 96), 0)
+    rightArrowTile = pygame.Surface((3*16 + 3*16, 96))
+    rightArrowTile.fill(config.green4)
+    rightArrowTile.blit(arrowTileImg, (3*16 + 1*16, 1*16))
+    rightArrowTile.blit(arrowTileImg, (3*16 + 1*16, 2*16))
+    rightArrowTile.blit(arrowTileImg, (3*16 + 1*16, 3*16))
+    rightArrowTile.blit(arrowTileImg, (3*16 + 1*16, 4*16))
+    pygame.draw.rect(rightArrowTile, config.green1, (3*16, 0, 3*16+3*16, 6*16), 1)
+    pygame.draw.rect(rightArrowTile, config.green3, (0, 0, 3*16, 96), 0)
 
-    rightArrowTile = pygame.transform.flip(leftArrowTile, True, False)
-    upArrowTile = pygame.transform.rotate(leftArrowTile, 90)
+    leftArrowTile = pygame.transform.flip(rightArrowTile, True, False)
+    upArrowTile = pygame.transform.rotate(rightArrowTile, 90)
     downArrowTile = pygame.transform.flip(upArrowTile, False, True)
 
 
