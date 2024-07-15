@@ -16,39 +16,39 @@ def tileGenerator():
     arrowTileImg = tileset.subsurface(arrowTileRect)
 
 
-    tiles = []
+    tiles = {}
     tileBase = pygame.Surface((96, 96))
     tileBase.fill(config.green2)
 
 
-    tileTypeA = tileBase.copy()
-    tileTypeA.blit(wallTileImg, (0, 0))
-    tileTypeA.blit(wallTileImg, (32, 0))
-    tileTypeA.blit(wallTileImg, (64, 0))
-    tileTypeA.blit(groundTileImg, (0, 32))
-    tileTypeA.blit(groundTileImg, (32, 32))
-    tileTypeA.blit(groundTileImg, (64, 32))
-    tileTypeA.blit(wallTileImg, (0, 64))
-    tileTypeA.blit(wallTileImg, (32, 64))
-    tileTypeA.blit(wallTileImg, (64, 64))
+    straightNSTile = tileBase.copy()
+    straightNSTile.blit(wallTileImg, (0, 0))
+    straightNSTile.blit(wallTileImg, (32, 0))
+    straightNSTile.blit(wallTileImg, (64, 0))
+    straightNSTile.blit(groundTileImg, (0, 32))
+    straightNSTile.blit(groundTileImg, (32, 32))
+    straightNSTile.blit(groundTileImg, (64, 32))
+    straightNSTile.blit(wallTileImg, (0, 64))
+    straightNSTile.blit(wallTileImg, (32, 64))
+    straightNSTile.blit(wallTileImg, (64, 64))
 
-    tileTypeB = tileTypeA.copy()
-    tileTypeA.blit(groundTileImg, (32, 0))
-    tileTypeA.blit(groundTileImg, (32, 64))
-    tileTypeA.blit(wallTileImg, (0, 32))
-    tileTypeA.blit(wallTileImg, (64, 32))
+    straightEWTile = straightNSTile.copy()
+    straightEWTile.blit(groundTileImg, (32, 0))
+    straightEWTile.blit(groundTileImg, (32, 64))
+    straightEWTile.blit(wallTileImg, (0, 32))
+    straightEWTile.blit(wallTileImg, (64, 32))
 
-    tileTypeC = tileTypeA.copy()
-    tileTypeC.blit(groundTileImg, (0, 32))
+    TTileNES = straightNSTile.copy()
+    TTileNES.blit(groundTileImg, (0, 32))
 
-    tileTypeD = tileTypeA.copy()
-    tileTypeD.blit(groundTileImg, (64, 32))
+    TTileNWS = straightNSTile.copy()
+    TTileNWS.blit(groundTileImg, (64, 32))
 
-    tileTypeE = tileTypeB.copy()
-    tileTypeE.blit(groundTileImg, (32, 0))
+    TTileNEW = straightEWTile.copy()
+    TTileNEW.blit(groundTileImg, (32, 0))
 
-    tileTypeF = tileTypeB.copy()
-    tileTypeF.blit(groundTileImg, (32, 64))
+    TTileEWS = straightEWTile.copy()
+    TTileEWS.blit(groundTileImg, (32, 64))
 
 
     leftArrowTile = pygame.Surface((3*16 + 3*16, 96))
@@ -65,16 +65,16 @@ def tileGenerator():
     downArrowTile = pygame.transform.flip(upArrowTile, False, True)
 
 
-    tiles.append(tileTypeA)
-    tiles.append(tileTypeB)
-    tiles.append(tileTypeC)
-    tiles.append(tileTypeD)
-    tiles.append(tileTypeE)
-    tiles.append(tileTypeF)
-    tiles.append(leftArrowTile)
-    tiles.append(rightArrowTile)
-    tiles.append(downArrowTile)
-    tiles.append(upArrowTile)
+    tiles["straight_ns"] = straightNSTile
+    tiles["straight_ew"] = straightEWTile
+    tiles["T_nes"] = TTileNES
+    tiles["T_nws"] = TTileNWS
+    tiles["T_new"] = TTileNEW
+    tiles["T_ews"] = TTileEWS
+    tiles["leftArrow"] = leftArrowTile
+    tiles["rightArrow"] = rightArrowTile
+    tiles["downArrow"] = downArrowTile
+    tiles["upArrow"] = upArrowTile
 
     return tiles
 
@@ -83,7 +83,7 @@ def generateTileBoard():
     tileBoard = [[None for _ in range(5)] for _ in range(5)]
     for y in range(5):
         for x in range(5):
-            tileBoard[y][x] = random.randint(0, 5)
+            tileBoard[y][x] = random.choice(list(config.tileTypes.keys()))
     return tileBoard
 
 def shiftRow(tileBoard, row, left=True):
