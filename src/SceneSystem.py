@@ -50,6 +50,9 @@ class GamePlay(Scene):
         self.tileBoard = generateTileBoard()
         self.tiles = tileGenerator()
         self.playerImgs = loadPlayerImgs()
+        self.playerDir = "right"
+        self.currentPlayerImg = self.playerImgs[self.playerDir][1]
+        self.playerImgFrame = 0
 
         self.playerX = 0
         self.playerY = 0
@@ -63,13 +66,33 @@ class GamePlay(Scene):
 
     def update(self):
         if self.movingRoute != None:
-            self.movingDelay += 1
+
             self.movingDelay %= 30
+
             if self.movingDelay == 0:
                 self.playerY, self.playerX = self.movingRoute.pop(0)
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
-            return
+                    return
+
+                playerDirX = self.movingRoute[0][1] - self.playerX
+                playerDirY = self.movingRoute[0][0] - self.playerY
+                if playerDirX == 1:
+                    self.playerDir = "right"
+                elif playerDirX == -1:
+                    self.playerDir = "left"
+                elif playerDirY == 1:
+                    self.playerDir = "down"
+                elif playerDirY == -1:
+                    self.playerDir = "up"
+
+            if self.movingDelay % 10 == 0:
+                self.playerImgFrame += 1
+                self.playerImgFrame %= 2
+                self.currentPlayerImg = self.playerImgs[self.playerDir][self.playerImgFrame]
+
+            self.movingDelay += 1
+
 
         if self.slideOffset != 0:
             self.slideOffset = abs(self.slideOffset)
@@ -132,8 +155,6 @@ class GamePlay(Scene):
                     start = (self.playerY, self.playerX)
                     end = (row, column)
                     self.movingRoute = findRoute(self.tileBoard, start, end)
-                    if self.movingRoute != None:
-                        self.movingRoute.pop(0)
 
     def draw(self, screen):
         screen.fill(config.green3)
@@ -177,5 +198,4 @@ class GamePlay(Scene):
         if MR != None:
             playerOffsetX += (MR[0][1] - self.playerX) * 96/30 * self.movingDelay
             playerOffsetY += (MR[0][0] - self.playerY) * 96/30 * self.movingDelay
-
-        screen.blit(self.playerImgs["right"][1], (xOffset+playerOffsetX, yOffset+playerOffsetY))
+        screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
