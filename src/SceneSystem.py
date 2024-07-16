@@ -67,7 +67,7 @@ class GamePlay(Scene):
     def update(self):
         if self.movingRoute != None:
 
-            self.movingDelay %= 30
+            self.movingDelay %= config.playerSpeed
 
             if self.movingDelay == 0:
                 self.playerY, self.playerX = self.movingRoute.pop(0)
@@ -86,7 +86,7 @@ class GamePlay(Scene):
                 elif playerDirY == -1:
                     self.playerDir = "up"
 
-            if self.movingDelay % 10 == 0:
+            if self.movingDelay % config.playerAnimationSpeed == 0:
                 self.playerImgFrame += 1
                 self.playerImgFrame %= 2
                 self.currentPlayerImg = self.playerImgs[self.playerDir][self.playerImgFrame]
@@ -196,6 +196,6 @@ class GamePlay(Scene):
         playerOffsetX = self.playerX*96+32
         playerOffsetY = self.playerY*96+32
         if MR != None:
-            playerOffsetX += (MR[0][1] - self.playerX) * 96/30 * self.movingDelay
-            playerOffsetY += (MR[0][0] - self.playerY) * 96/30 * self.movingDelay
+            playerOffsetX += (MR[0][1] - self.playerX) * 96/config.playerSpeed * self.movingDelay
+            playerOffsetY += (MR[0][0] - self.playerY) * 96/config.playerSpeed * self.movingDelay
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
