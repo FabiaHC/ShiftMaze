@@ -51,6 +51,9 @@ class GamePlay(Scene):
         self.tiles = tileGenerator()
         self.playerImgs = loadPlayerImgs()
 
+        self.playerX = 0
+        self.playerY = 0
+
         self.slideOffset = 0
         self.slideDirection = 1
         self.slidingRow = None
@@ -112,6 +115,16 @@ class GamePlay(Scene):
                         self.slideOffset = -1
                         self.slideDirection = -1
 
+                if x > 0 and x < 5*96 and y > 0 and y < 5*96:
+                    row = y // 96
+                    column = x // 96
+                    start = (self.playerY, self.playerX)
+                    end = (row, column)
+                    if findRoute(self.tileBoard, start, end):   #move player if possible
+                        self.playerX = column
+                        self.playerY = row
+
+
     def draw(self, screen):
         screen.fill(config.green3)
         xOffset = 160
@@ -148,4 +161,4 @@ class GamePlay(Scene):
             screen.blit(self.tiles["downArrow"], (xOffset+x*96, yOffset - (3*16 + 3*16)))     #same here
             screen.blit(self.tiles["upArrow"], (xOffset+x*96, yOffset+5*96))
 
-        screen.blit(self.playerImgs["right"][1], (xOffset+32, yOffset+32))
+        screen.blit(self.playerImgs["right"][1], (xOffset+self.playerX*96+32, yOffset+self.playerY*96+32))
