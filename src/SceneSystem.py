@@ -63,12 +63,12 @@ class GamePlay(Scene):
 
     def update(self):
         if self.movingRoute != None:
+            self.movingDelay += 1
+            self.movingDelay %= 30
             if self.movingDelay == 0:
                 self.playerY, self.playerX = self.movingRoute.pop(0)
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
-            self.movingDelay += 1
-            self.movingDelay %= 30
             return
 
         if self.slideOffset != 0:
@@ -171,4 +171,11 @@ class GamePlay(Scene):
             screen.blit(self.tiles["downArrow"], (xOffset+x*96, yOffset - (3*16 + 3*16)))     #same here
             screen.blit(self.tiles["upArrow"], (xOffset+x*96, yOffset+5*96))
 
-        screen.blit(self.playerImgs["right"][1], (xOffset+self.playerX*96+32, yOffset+self.playerY*96+32))
+        MR = self.movingRoute
+        playerOffsetX = self.playerX*96+32
+        playerOffsetY = self.playerY*96+32
+        if MR != None:
+            playerOffsetX += (MR[0][1] - self.playerX) * 96/30 * self.movingDelay
+            playerOffsetY += (MR[0][0] - self.playerY) * 96/30 * self.movingDelay
+
+        screen.blit(self.playerImgs["right"][1], (xOffset+playerOffsetX, yOffset+playerOffsetY))
