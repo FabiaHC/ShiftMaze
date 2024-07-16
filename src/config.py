@@ -1,7 +1,7 @@
-green1 = (215, 232, 148)
-green2 = (174, 196, 64)
-green3 = (82, 127, 57)
-green4 = (32, 70, 49)
+green1 = (155, 188, 15)
+green2 = (139, 172, 15)
+green3 = (48, 98, 48)
+green4 = (15, 56, 15)
 
 tileTypes = {
     "straight_ns": ["N", "S"],  # North-South

@@ -10,8 +10,8 @@ def tileGenerator():
     wallTileImg = tileset.subsurface(wallTileRect)
 
     groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
-    groundTileImg = tileset.subsurface(groundTileRect)
-    groundTileImg.fill(config.green2)
+    groundTileImg = pygame.Surface((32, 32))
+    groundTileImg.fill(config.green1)
 
     arrowTileRect = pygame.Rect(4*16, 47*16, 16, 16)
     arrowTileImg = tileset.subsurface(arrowTileRect)
@@ -19,7 +19,6 @@ def tileGenerator():
 
     tiles = {}
     tileBase = pygame.Surface((96, 96))
-    tileBase.fill(config.green2)
 
 
     straightEWTile = tileBase.copy()
