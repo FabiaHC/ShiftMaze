@@ -53,6 +53,8 @@ class GamePlay(Scene):
 
         self.playerX = 0
         self.playerY = 0
+        self.movingRoute = None
+        self.movingDelay = 0
 
         self.slideOffset = 0
         self.slideDirection = 1
@@ -60,6 +62,15 @@ class GamePlay(Scene):
         self.slidingCol = None
 
     def update(self):
+        if self.movingRoute != None:
+            if self.movingDelay == 0:
+                self.playerY, self.playerX = self.movingRoute.pop(0)
+                if len(self.movingRoute) == 0:
+                    self.movingRoute = None
+            self.movingDelay += 1
+            self.movingDelay %= 30
+            return
+
         if self.slideOffset != 0:
             self.slideOffset = abs(self.slideOffset)
             self.slideOffset += 1
@@ -120,10 +131,9 @@ class GamePlay(Scene):
                     column = x // 96
                     start = (self.playerY, self.playerX)
                     end = (row, column)
-                    if findRoute(self.tileBoard, start, end):   #move player if possible
-                        self.playerX = column
-                        self.playerY = row
-
+                    self.movingRoute = findRoute(self.tileBoard, start, end)
+                    if self.movingRoute != None:
+                        self.movingRoute.pop(0)
 
     def draw(self, screen):
         screen.fill(config.green3)
