@@ -1,15 +1,22 @@
 import config
+from GameUtils import replaceColours
 
 import pygame
 import random
 import collections
 
 def tileGenerator():
-    tileset = pygame.image.load("assets/fantasy-tileset.png")
+    tileset = pygame.image.load("assets/fantasy-tileset.png").convert_alpha()
+    colourMap = {
+        (215, 232, 148) : config.green1,
+        (174, 196, 64)  : config.green2,
+        (82, 127, 57)   : config.green3,
+        (32, 70, 49)    : config.green4
+    }
+    replaceColours(tileset, colourMap)
     wallTileRect = pygame.Rect(3*32, 1*32, 32, 32)
     wallTileImg = tileset.subsurface(wallTileRect)
 
-    groundTileRect = pygame.Rect(7*32, 3*32, 32, 32)
     groundTileImg = pygame.Surface((32, 32))
     groundTileImg.fill(config.green1)
 
