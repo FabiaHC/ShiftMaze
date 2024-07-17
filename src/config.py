@@ -1,3 +1,6 @@
+from types import SimpleNamespace
+
+
 green1 = (155, 188, 15)
 green2 = (139, 172, 15)
 green3 = (48, 98, 48)
@@ -14,9 +17,21 @@ tileTypes = {
     "L_nw" : ["N", "W"],        # L-shape North-West
     "L_es" : ["E", "S"],        # L-shape South-East
     "L_ws" : ["W", "S"],        # L-shape South-West
-    
+
     "goal" : ["N", "E"]        # L-shape North-East (goal)
 }
 
 playerSpeed             = 20    # lower means faster
 playerAnimationSpeed    = 5    # has to be lower than playerSpeed
+
+xOffset = 160
+yOffset = 60
+
+scores = SimpleNamespace(
+    GOAL = 1000,
+    goalSteps = 100,
+    intermediateSteps = -100,
+    mazeShiftings = -100,
+    playerShiftings = -100,
+    goalShifting = -100
+)

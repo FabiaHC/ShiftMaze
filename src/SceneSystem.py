@@ -54,6 +54,8 @@ class GamePlay(Scene):
         self.currentPlayerImg = self.playerImgs[self.playerDir][1]
         self.playerImgFrame = 0
 
+        self.score = 0
+
         self.playerX = 0
         self.playerY = 0
         self.movingRoute = None
@@ -74,6 +76,8 @@ class GamePlay(Scene):
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
                     if self.tileBoard[self.playerY][self.playerX] == "goal":
+                        self.score += config.scores.GOAL
+                        print(self.score)
                         quit()
                     return
 
@@ -131,8 +135,8 @@ class GamePlay(Scene):
                 mousePos = pygame.mouse.get_pos()
                 x, y = mousePos
                 SBSS = 3*16 #shift button shorter size
-                x -= 160    #remove offset
-                y -= 60     #remove offset
+                x -= config.xOffset    #remove offset
+                y -= config.yOffset     #remove offset
 
                 if self.slideOffset != 0 or self.movingRoute != None: #ignore input during sliding animation
                     continue
@@ -168,8 +172,8 @@ class GamePlay(Scene):
 
     def draw(self, screen):
         screen.fill(config.green3)
-        xOffset = 160
-        yOffset = 60
+        xOffset = config.xOffset
+        yOffset = config.yOffset
         for y in range(5):
             for x in range(5):
                 if x == self.slidingCol:
