@@ -73,6 +73,8 @@ class GamePlay(Scene):
                 self.playerY, self.playerX = self.movingRoute.pop(0)
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
+                    if self.tileBoard[self.playerY][self.playerX] == "goal":
+                        quit()
                     return
 
                 playerDirX = self.movingRoute[0][1] - self.playerX
