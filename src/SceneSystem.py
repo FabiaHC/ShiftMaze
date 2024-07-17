@@ -55,6 +55,7 @@ class GamePlay(Scene):
         self.playerImgFrame = 0
 
         self.score = 0
+        self.stepsTaken = 0
 
         self.playerX = 0
         self.playerY = 0
@@ -73,12 +74,17 @@ class GamePlay(Scene):
 
             if self.movingDelay == 0:
                 self.playerY, self.playerX = self.movingRoute.pop(0)
+                self.stepsTaken += 1
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
                     if self.tileBoard[self.playerY][self.playerX] == "goal":
-                        self.score += config.SCORES.GOAL
-                        print(self.score)
+                        self.updateScore(config.SCORES.GOAL)
+                        self.updateScore(config.SCORES.GOALSTEPS * self.stepsTaken)
+                        print("Final Score:", self.score)
                         quit()
+                    else:
+                        self.updateScore(config.SCORES.INTERMEDIATE_STEPS * self.stepsTaken)
+                    self.stepsTaken = 0
                     return
 
                 playerDirX = self.movingRoute[0][1] - self.playerX
@@ -107,20 +113,20 @@ class GamePlay(Scene):
             self.slideOffset *= self.slideDirection
             if self.slideOffset == 0: # finish sliding
 
-                self.score +=  config.SCORES.MAZE_SHIFTING
+                self.updateScore(config.SCORES.MAZE_SHIFTING)
 
                 if self.slidingRow != None:
                     shiftRow(self.tileBoard, self.slidingRow, (self.slideDirection == -1))
                     if self.playerY == self.slidingRow:
                         self.playerX += self.slideDirection
-                        self.score += config.SCORES.PLAYER_SHIFTING
+                        self.updateScore(config.SCORES.PLAYER_SHIFTING)
                     self.slidingRow = None
 
                 elif self.slidingCol != None:
                     shiftColumn(self.tileBoard, self.slidingCol, (self.slideDirection == 1))
                     if self.playerX == self.slidingCol:
                         self.playerY += self.slideDirection
-                        self.score += config.SCORES.PLAYER_SHIFTING
+                        self.updateScore(config.SCORES.PLAYER_SHIFTING)
                     self.slidingCol = None
 
     def handleEvents(self, events):
@@ -212,3 +218,6 @@ class GamePlay(Scene):
             playerOffsetY += self.slideOffset
 
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
+
+    def updateScore(self, amount):
+        self.score += amount
