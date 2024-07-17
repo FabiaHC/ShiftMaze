@@ -27,11 +27,11 @@ playerAnimationSpeed    = 5    # has to be lower than playerSpeed
 xOffset = 160
 yOffset = 60
 
-scores = SimpleNamespace(
+SCORES = SimpleNamespace(
     GOAL = 1000,
     goalSteps = 100,
     intermediateSteps = -100,
-    mazeShiftings = -100,
-    playerShiftings = -100,
+    MAZE_SHIFTING = -100,
+    PLAYER_SHIFTING = -100,
     goalShifting = -100
 )

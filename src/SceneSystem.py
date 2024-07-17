@@ -76,7 +76,7 @@ class GamePlay(Scene):
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
                     if self.tileBoard[self.playerY][self.playerX] == "goal":
-                        self.score += config.scores.GOAL
+                        self.score += config.SCORES.GOAL
                         print(self.score)
                         quit()
                     return
@@ -105,7 +105,9 @@ class GamePlay(Scene):
             self.slideOffset += 1
             self.slideOffset %= 96
             self.slideOffset *= self.slideDirection
-            if self.slideOffset == 0:
+            if self.slideOffset == 0: # finish sliding
+
+                self.score +=  config.SCORES.MAZE_SHIFTING
 
                 if self.slidingRow != None:
                     if self.slideDirection == 1:
