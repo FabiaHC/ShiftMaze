@@ -104,15 +104,23 @@ class GamePlay(Scene):
                 if self.slidingRow != None:
                     if self.slideDirection == 1:
                         shiftRow(self.tileBoard, self.slidingRow, False)
+                        if self.playerY == self.slidingRow:
+                            self.playerX += 1
                     elif self.slideDirection == -1:
                         shiftRow(self.tileBoard, self.slidingRow, True)
+                        if self.playerY == self.slidingRow:
+                            self.playerX -= 1
                     self.slidingRow = None
 
                 elif self.slidingCol != None:
                     if self.slideDirection == 1:
                         shiftColumn(self.tileBoard, self.slidingCol, True)
+                        if self.playerX == self.slidingCol:
+                            self.playerY += 1
                     elif self.slideDirection == -1:
                         shiftColumn(self.tileBoard, self.slidingCol, False)
+                        if self.playerX == self.slidingCol:
+                            self.playerY -= 1
                     self.slidingCol = None
 
     def handleEvents(self, events):
@@ -124,27 +132,27 @@ class GamePlay(Scene):
                 x -= 160    #remove offset
                 y -= 60     #remove offset
 
-                if self.slideOffset != 0:   #ignore input during sliding animation
+                if self.slideOffset != 0 or self.movingRoute != None: #ignore input during sliding animation
                     continue
 
                 if y > 0 and y < 5*96:
                     row = y // 96
-                    if x > -SBSS and x < 0:             #right shift arrows
+                    if x > -SBSS and x < 0 and not (self.playerY == row and self.playerX == 4): #right shift arrows
                         self.slidingRow = row
                         self.slideOffset = 1
                         self.slideDirection = 1
-                    elif x > 5*96 and x < 5*96+SBSS:    #left shift arrows
+                    elif x > 5*96 and x < 5*96+SBSS and not (self.playerY == row and self.playerX == 0): #left shift arrows
                         self.slidingRow = row
                         self.slideOffset = -1
                         self.slideDirection = -1
 
                 if x > 0 and x < 5*96:
                     column = x // 96
-                    if y > -SBSS and y < 0:             #down shift arrows
+                    if y > -SBSS and y < 0 and not (self.playerX == column and self.playerY == 4): #down shift arrows
                         self.slidingCol = column
                         self.slideOffset = 1
                         self.slideDirection = 1
-                    elif y > 5*96 and y < 5*96+SBSS:    #up shift arrows
+                    elif y > 5*96 and y < 5*96+SBSS and not (self.playerX == column and self.playerY == 0): #up shift arrows
                         self.slidingCol = column
                         self.slideOffset = -1
                         self.slideDirection = -1
@@ -198,4 +206,9 @@ class GamePlay(Scene):
         if MR != None:
             playerOffsetX += (MR[0][1] - self.playerX) * 96/config.playerSpeed * self.movingDelay
             playerOffsetY += (MR[0][0] - self.playerY) * 96/config.playerSpeed * self.movingDelay
+        elif self.slidingRow == self.playerY:
+            playerOffsetX += self.slideOffset
+        elif self.slidingCol == self.playerX:
+            playerOffsetY += self.slideOffset
+
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
