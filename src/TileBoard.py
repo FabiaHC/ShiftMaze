@@ -47,9 +47,17 @@ def tileGenerator():
 
     TTileNES = straightNSTile.copy()
     TTileNES.blit(groundTileImg, (0, 32))
+    LTileNE = TTileNES.copy()
+    LTileNE.blit(wallTileImg, (32, 64))
+    LTileES = TTileNES.copy()
+    LTileES.blit(wallTileImg, (32, 0))
 
     TTileNWS = straightNSTile.copy()
     TTileNWS.blit(groundTileImg, (64, 32))
+    LTileNW = TTileNWS.copy()
+    LTileNW.blit(wallTileImg, (32, 64))
+    LTileWS = TTileNWS.copy()
+    LTileWS.blit(wallTileImg, (32, 0))
 
     TTileNEW = straightEWTile.copy()
     TTileNEW.blit(groundTileImg, (32, 0))
@@ -78,6 +86,10 @@ def tileGenerator():
     tiles["T_nws"] = TTileNWS
     tiles["T_new"] = TTileNEW
     tiles["T_ews"] = TTileEWS
+    tiles["L_ne"] = LTileNE
+    tiles["L_nw"] = LTileNW
+    tiles["L_es"] = LTileES
+    tiles["L_ws"] = LTileWS
     tiles["leftArrow"] = leftArrowTile
     tiles["rightArrow"] = rightArrowTile
     tiles["downArrow"] = downArrowTile

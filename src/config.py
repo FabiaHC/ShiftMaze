@@ -9,7 +9,11 @@ tileTypes = {
     "T_nes": ["N", "E", "S"],   # T-shape North-East-South
     "T_new": ["N", "E", "W"],   # T-shape North-East-West
     "T_nws": ["N", "W", "S"],   # T-shape North-West-South
-    "T_ews": ["E", "W", "S"]    # T-shape East-West-South
+    "T_ews": ["E", "W", "S"],   # T-shape East-West-South
+    "L_ne" : ["N", "E"],          # L-shape North-East
+    "L_nw" : ["N", "W"],          # L-shape North-West
+    "L_es" : ["E", "S"],          # L-shape South-East
+    "L_ws" : ["W", "W"]           # L-shape South-West
 }
 
 playerSpeed             = 20    # lower means faster
