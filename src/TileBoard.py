@@ -23,6 +23,9 @@ def tileGenerator():
     arrowTileRect = pygame.Rect(4*16, 47*16, 16, 16)
     arrowTileImg = tileset.subsurface(arrowTileRect)
 
+    treasureChestTileRect = pygame.Rect(0, 4*32, 32, 32)
+    treasureChestTileImg = tileset.subsurface(treasureChestTileRect)
+
 
     tiles = {}
     tileBase = pygame.Surface((96, 96))
@@ -66,6 +69,10 @@ def tileGenerator():
     TTileEWS.blit(groundTileImg, (32, 64))
 
 
+    goalTile = LTileNE.copy()
+    goalTile.blit(treasureChestTileImg, (32, 32))
+
+
     rightArrowTile = pygame.Surface((3*16 + 3*16, 96))
     rightArrowTile.fill(config.green4)
     rightArrowTile.blit(arrowTileImg, (3*16 + 1*16, 1*16))
@@ -90,6 +97,7 @@ def tileGenerator():
     tiles["L_nw"] = LTileNW
     tiles["L_es"] = LTileES
     tiles["L_ws"] = LTileWS
+    tiles["goal"] = goalTile
     tiles["leftArrow"] = leftArrowTile
     tiles["rightArrow"] = rightArrowTile
     tiles["downArrow"] = downArrowTile
@@ -99,10 +107,12 @@ def tileGenerator():
 
 
 def generateTileBoard():
+    tileChoices = list(config.tileTypes)[:-1]
     tileBoard = [[None for _ in range(5)] for _ in range(5)]
     for y in range(5):
         for x in range(5):
-            tileBoard[y][x] = random.choice(list(config.tileTypes.keys()))
+            tileBoard[y][x] = random.choice(tileChoices)
+    tileBoard[4][4] = "goal"
     return tileBoard
 
 def shiftRow(tileBoard, row, left=True):
