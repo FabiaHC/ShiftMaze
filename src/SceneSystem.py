@@ -110,25 +110,17 @@ class GamePlay(Scene):
                 self.score +=  config.SCORES.MAZE_SHIFTING
 
                 if self.slidingRow != None:
-                    if self.slideDirection == 1:
-                        shiftRow(self.tileBoard, self.slidingRow, False)
-                        if self.playerY == self.slidingRow:
-                            self.playerX += 1
-                    elif self.slideDirection == -1:
-                        shiftRow(self.tileBoard, self.slidingRow, True)
-                        if self.playerY == self.slidingRow:
-                            self.playerX -= 1
+                    shiftRow(self.tileBoard, self.slidingRow, (self.slideDirection == -1))
+                    if self.playerY == self.slidingRow:
+                        self.playerX += self.slideDirection
+                        self.score += config.SCORES.PLAYER_SHIFTING
                     self.slidingRow = None
 
                 elif self.slidingCol != None:
-                    if self.slideDirection == 1:
-                        shiftColumn(self.tileBoard, self.slidingCol, True)
-                        if self.playerX == self.slidingCol:
-                            self.playerY += 1
-                    elif self.slideDirection == -1:
-                        shiftColumn(self.tileBoard, self.slidingCol, False)
-                        if self.playerX == self.slidingCol:
-                            self.playerY -= 1
+                    shiftColumn(self.tileBoard, self.slidingCol, (self.slideDirection == 1))
+                    if self.playerX == self.slidingCol:
+                        self.playerY += self.slideDirection
+                        self.score += config.SCORES.PLAYER_SHIFTING
                     self.slidingCol = None
 
     def handleEvents(self, events):
