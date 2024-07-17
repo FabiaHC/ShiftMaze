@@ -29,8 +29,7 @@ yOffset = 60
 
 SCORES = SimpleNamespace(
     GOAL = 1000,
-    GOALSTEPS = 100,
-    INTERMEDIATE_STEPS = -100,
+    GOALSTEPS = 1000,
     MAZE_SHIFTING = -100,
     PLAYER_SHIFTING = -100,
     GOALSHIFTING = -100

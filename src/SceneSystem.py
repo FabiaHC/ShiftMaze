@@ -55,6 +55,7 @@ class GamePlay(Scene):
         self.playerImgFrame = 0
 
         self.score = 0
+        self.totalIntermediateStepsTaken = 0
         self.stepsTaken = 0
 
         self.playerX = 0
@@ -78,13 +79,17 @@ class GamePlay(Scene):
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
                     if self.tileBoard[self.playerY][self.playerX] == "goal":
+                        stepBasedScore = self.stepsTaken / (self.stepsTaken + self.totalIntermediateStepsTaken)
+                        stepBasedScore *= config.SCORES.GOALSTEPS
+                        stepBasedScore = int ((stepBasedScore // 10) * 10)
+                        self.updateScore(stepBasedScore)
                         self.updateScore(config.SCORES.GOAL)
-                        self.updateScore(config.SCORES.GOALSTEPS * self.stepsTaken)
                         print("Final Score:", self.score)
                         quit()
                     else:
-                        self.updateScore(config.SCORES.INTERMEDIATE_STEPS * self.stepsTaken)
-                    self.stepsTaken = 0
+                        self.totalIntermediateStepsTaken += self.stepsTaken
+                        self.stepsTaken = 0
+
                     return
 
                 playerDirX = self.movingRoute[0][1] - self.playerX
@@ -169,6 +174,8 @@ class GamePlay(Scene):
                     start = (self.playerY, self.playerX)
                     end = (row, column)
                     self.movingRoute = findRoute(self.tileBoard, start, end)
+                    if self.movingRoute != None:
+                        self.stepsTaken -= 1
 
     def draw(self, screen):
         screen.fill(config.green3)
