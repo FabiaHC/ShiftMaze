@@ -30,5 +30,5 @@ scores = {
     "GOAL_STEPS" : 1000,
     "MAZE_SHIFTING" : -100,
     "PLAYER_SHIFTING" : -100,
-    "GOALSHIFTING" : -100
+    "GOAL_SHIFTING" : -100
 }
