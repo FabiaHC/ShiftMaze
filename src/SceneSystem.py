@@ -54,12 +54,10 @@ class GamePlay(Scene):
         self.currentPlayerImg = self.playerImgs[self.playerDir][1]
         self.playerImgFrame = 0
 
-        self.score = 0
-        self.totalIntermediateStepsTaken = 0
-        self.stepsTaken = 0
-
-        self.scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
-        self.scoreText = self.scoreFont.render("Score: {0}".format(self.score) , True, config.green4)
+        self.scoreTracker = {}
+        for scoreMod in config.scores:
+            self.scoreTracker[scoreMod] = 0
+        self.scoreTracker["INTERMEDIATE_STEPS"] = 0
 
         self.playerX = 0
         self.playerY = 0
@@ -78,22 +76,20 @@ class GamePlay(Scene):
 
             if self.movingDelay == 0:
                 self.playerY, self.playerX = self.movingRoute.pop(0)
-                self.stepsTaken += 1
+
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
                     if self.tileBoard[self.playerY][self.playerX] == "goal":
-                        stepBasedScore = self.stepsTaken / (self.stepsTaken + self.totalIntermediateStepsTaken)
-                        stepBasedScore *= config.SCORES.GOALSTEPS
-                        stepBasedScore = int ((stepBasedScore // 10) * 10)
-                        self.updateScore(stepBasedScore)
-                        self.updateScore(config.SCORES.GOAL)
-                        print("Final Score:", self.score)
+                        self.updateScore("GOAL")
                         quit()
-                    else:
-                        self.totalIntermediateStepsTaken += self.stepsTaken
-                        self.stepsTaken = 0
-
                     return
+
+                endPosY, endPosX = self.movingRoute[-1]
+                if (self.tileBoard[endPosY][endPosX] == "goal"):
+                    self.updateScore("GOAL_STEPS")
+                else:
+                    self.updateScore("INTERMEDIATE_STEPS")
+
 
                 playerDirX = self.movingRoute[0][1] - self.playerX
                 playerDirY = self.movingRoute[0][0] - self.playerY
@@ -121,20 +117,20 @@ class GamePlay(Scene):
             self.slideOffset *= self.slideDirection
             if self.slideOffset == 0: # finish sliding
 
-                self.updateScore(config.SCORES.MAZE_SHIFTING)
+                self.updateScore("MAZE_SHIFTING")
 
                 if self.slidingRow != None:
                     shiftRow(self.tileBoard, self.slidingRow, (self.slideDirection == -1))
                     if self.playerY == self.slidingRow:
                         self.playerX += self.slideDirection
-                        self.updateScore(config.SCORES.PLAYER_SHIFTING)
+                        self.updateScore("PLAYER_SHIFTING")
                     self.slidingRow = None
 
                 elif self.slidingCol != None:
                     shiftColumn(self.tileBoard, self.slidingCol, (self.slideDirection == 1))
                     if self.playerX == self.slidingCol:
                         self.playerY += self.slideDirection
-                        self.updateScore(config.SCORES.PLAYER_SHIFTING)
+                        self.updateScore("PLAYER_SHIFTING")
                     self.slidingCol = None
 
     def handleEvents(self, events):
@@ -177,8 +173,6 @@ class GamePlay(Scene):
                     start = (self.playerY, self.playerX)
                     end = (row, column)
                     self.movingRoute = findRoute(self.tileBoard, start, end)
-                    if self.movingRoute != None:
-                        self.stepsTaken -= 1
 
     def draw(self, screen):
         screen.fill(config.green3)
@@ -230,9 +224,8 @@ class GamePlay(Scene):
             playerOffsetY += self.slideOffset
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
 
+    def updateScore(self, scoreMod):
+        self.scoreTracker[scoreMod] += 1
 
-        screen.blit(self.scoreText, (0, 0))
-
-    def updateScore(self, amount):
-        self.score += amount
-        self.scoreText = self.scoreFont.render("Score: {0}".format(self.score), True, config.green4)
+    def calculateScore(self):
+        pass

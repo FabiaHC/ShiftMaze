@@ -1,6 +1,3 @@
-from types import SimpleNamespace
-
-
 green1 = (155, 188, 15)
 green2 = (139, 172, 15)
 green3 = (48, 98, 48)
@@ -27,10 +24,11 @@ playerAnimationSpeed    = 5    # has to be lower than playerSpeed
 xOffset = 160
 yOffset = 72
 
-SCORES = SimpleNamespace(
-    GOAL = 1000,
-    GOALSTEPS = 1000,
-    MAZE_SHIFTING = -100,
-    PLAYER_SHIFTING = -100,
-    GOALSHIFTING = -100
-)
+
+scores = {
+    "GOAL" : 1000,
+    "GOAL_STEPS" : 1000,
+    "MAZE_SHIFTING" : -100,
+    "PLAYER_SHIFTING" : -100,
+    "GOALSHIFTING" : -100
+}
