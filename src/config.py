@@ -25,7 +25,7 @@ playerSpeed             = 20    # lower means faster
 playerAnimationSpeed    = 5    # has to be lower than playerSpeed
 
 xOffset = 160
-yOffset = 60
+yOffset = 72
 
 SCORES = SimpleNamespace(
     GOAL = 1000,

@@ -58,6 +58,9 @@ class GamePlay(Scene):
         self.totalIntermediateStepsTaken = 0
         self.stepsTaken = 0
 
+        self.scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
+        self.scoreText = self.scoreFont.render("Score: {0}".format(self.score) , True, config.green4)
+
         self.playerX = 0
         self.playerY = 0
         self.movingRoute = None
@@ -179,8 +182,10 @@ class GamePlay(Scene):
 
     def draw(self, screen):
         screen.fill(config.green3)
+
         xOffset = config.xOffset
         yOffset = config.yOffset
+
         for y in range(5):
             for x in range(5):
                 if x == self.slidingCol:
@@ -223,8 +228,11 @@ class GamePlay(Scene):
             playerOffsetX += self.slideOffset
         elif self.slidingCol == self.playerX:
             playerOffsetY += self.slideOffset
-
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
+
+
+        screen.blit(self.scoreText, (0, 0))
 
     def updateScore(self, amount):
         self.score += amount
+        self.scoreText = self.scoreFont.render("Score: {0}".format(self.score), True, config.green4)
