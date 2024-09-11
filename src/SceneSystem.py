@@ -47,17 +47,23 @@ class MainMenu(Scene):
 class GamePlay(Scene):
     def __init__(self):
         super().__init__()
-        self.tileBoard = generateTileBoard()
         self.tiles = tileGenerator()
         self.playerImgs = loadPlayerImgs()
-        self.playerDir = "right"
-        self.currentPlayerImg = self.playerImgs[self.playerDir][1]
-        self.playerImgFrame = 0
 
         self.scoreTracker = {}
         for scoreMod in config.scores:
             self.scoreTracker[scoreMod] = 0
         self.scoreTracker["INTERMEDIATE_STEPS"] = 0
+
+        self.reset()
+
+
+    def reset(self):
+        self.tileBoard = generateTileBoard()
+
+        self.playerDir = "right"
+        self.currentPlayerImg = self.playerImgs[self.playerDir][1]
+        self.playerImgFrame = 0
 
         self.playerX = 0
         self.playerY = 0
@@ -85,7 +91,7 @@ class GamePlay(Scene):
                     if self.playerY == self.goalY and self.playerX == self.goalX:
                         self.updateScore("GOAL")
                         print(self.scoreTracker)
-                        quit()
+                        self.reset()
                     return
 
                 endPosY, endPosX = self.movingRoute[-1]
