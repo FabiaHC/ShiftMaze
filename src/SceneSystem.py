@@ -82,7 +82,7 @@ class GamePlay(Scene):
 
                 if len(self.movingRoute) == 0:
                     self.movingRoute = None
-                    if self.playerY == self.goalY and self.playerX == self.goalY:
+                    if self.playerY == self.goalY and self.playerX == self.goalX:
                         self.updateScore("GOAL")
                         print(self.scoreTracker)
                         quit()
@@ -130,6 +130,7 @@ class GamePlay(Scene):
                         self.updateScore("PLAYER_SHIFTING")
                     elif self.goalY == self.slidingRow:
                         self.goalX += self.slideDirection
+                        self.updateScore("GOAL_SHIFTING")
                     self.slidingRow = None
 
                 elif self.slidingCol != None:
@@ -139,6 +140,7 @@ class GamePlay(Scene):
                         self.updateScore("PLAYER_SHIFTING")
                     elif self.goalX == self.slidingCol:
                         self.goalY += self.slideDirection
+                        self.updateScore("GOAL_SHIFTING")
                     self.slidingCol = None
 
     def handleEvents(self, events):
