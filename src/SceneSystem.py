@@ -29,7 +29,6 @@ class MainMenu(Scene):
         self.startText = gameboyFontSmall.render("Press Anything To Start!", True, config.green4)
         self.startTextRect = self.startText.get_rect(center=(400, 500))
 
-
     def update(self):
         pass
 
@@ -55,11 +54,14 @@ class GamePlay(Scene):
             self.scoreTracker[scoreMod] = 0
         self.scoreTracker["INTERMEDIATE_STEPS"] = 0
 
-        self.reset()
+        self.gameboyFont = pygame.font.Font("assets/Early GameBoy.ttf", 30)
 
+        self.reset()
 
     def reset(self):
         self.tileBoard = generateTileBoard()
+
+        self.countdown = 30.00
 
         self.playerDir = "right"
         self.currentPlayerImg = self.playerImgs[self.playerDir][1]
@@ -78,7 +80,19 @@ class GamePlay(Scene):
         self.slidingRow = None
         self.slidingCol = None
 
+    def updateCountdown(self):
+        self.countdown -= 1/60
+        countdownStr = "{0:.2f}".format(self.countdown)
+        self.countdownImg = self.gameboyFont.render(countdownStr, True, config.green4)
+        self.countdownImgRect = self.countdownImg.get_rect(left=10, top=0)
+
+
     def update(self):
+        self.updateCountdown()
+        if (self.countdown <= 0):
+            quit()
+
+
         if self.movingRoute != None:
 
             self.movingDelay %= config.playerSpeed
@@ -200,6 +214,8 @@ class GamePlay(Scene):
 
     def draw(self, screen):
         screen.fill(config.green3)
+
+        screen.blit(self.countdownImg, self.countdownImgRect)
 
         xOffset = config.xOffset
         yOffset = config.yOffset
