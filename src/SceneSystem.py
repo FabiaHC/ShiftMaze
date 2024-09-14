@@ -56,12 +56,15 @@ class GamePlay(Scene):
 
         self.gameboyFont = pygame.font.Font("assets/Early GameBoy.ttf", 30)
 
+        self.countdown = 30.00
         self.reset()
 
     def reset(self):
         self.tileBoard = generateTileBoard()
 
-        self.countdown = 30.00
+        self.countdown += 30
+        if self.countdown > 99.99:
+            self.countdown = 99.99
 
         self.playerDir = "right"
         self.currentPlayerImg = self.playerImgs[self.playerDir][1]
