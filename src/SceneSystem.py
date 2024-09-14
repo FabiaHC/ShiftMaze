@@ -285,13 +285,23 @@ class GameOverScene(Scene):
         self.scoreText = scoreFont.render(scoreText, True, config.green4)
         self.scoreTextRect = self.scoreText.get_rect(center=(400, 400))
 
+        startFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
+        self.playAgainText = startFont.render("Press Anything To Play Again!", True, config.green4)
+        self.playAgainTextRect = self.playAgainText.get_rect(center=(400, 500))
+
     def calculateScore(self, scoreTracker):
         score = 0
         for scoreMod in scoreTracker:
             score += config.scores[scoreMod] * scoreTracker[scoreMod]
         return score
 
+    def handleEvents(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                return GamePlay()
+
     def draw(self, screen):
         screen.fill(config.green3)
         screen.blit(self.gameoverText, self.gameoverTextRect)
         screen.blit(self.scoreText, self.scoreTextRect)
+        screen.blit(self.playAgainText, self.playAgainTextRect)
