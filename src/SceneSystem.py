@@ -82,6 +82,8 @@ class GamePlay(Scene):
 
     def updateCountdown(self):
         self.countdown -= 1/60
+        if self.countdown < 0:
+            self.countdown = 0
         countdownStr = "{0:.2f}".format(self.countdown)
         self.countdownImg = self.gameboyFont.render(countdownStr, True, config.green4)
         self.countdownImgRect = self.countdownImg.get_rect(left=10, top=0)
@@ -100,7 +102,6 @@ class GamePlay(Scene):
                     self.movingRoute = None
                     if self.playerY == self.goalY and self.playerX == self.goalX:
                         self.updateScore("GOAL")
-                        print(self.scoreTracker)
                         self.reset()
                     return
 
@@ -161,7 +162,7 @@ class GamePlay(Scene):
 
     def handleEvents(self, events):
         if (self.countdown <= 0):
-            return GameOverScene()
+            return GameOverScene(self.scoreTracker)
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -266,17 +267,28 @@ class GamePlay(Scene):
     def updateScore(self, scoreMod):
         self.scoreTracker[scoreMod] += 1
 
-    def calculateScore(self):
-        pass
-
 
 class GameOverScene(Scene):
-    def __init__(self):
+    def __init__(self, scoreTracker):
         super().__init__()
-        gameboyFontLarge = pygame.font.Font("assets/Early GameBoy.ttf", 74)
-        self.gameoverText = gameboyFontLarge.render("Game Over", True, config.green4)
+
+        gameoverFont = pygame.font.Font("assets/Early GameBoy.ttf", 74)
+        self.gameoverText = gameoverFont.render("Game Over", True, config.green4)
         self.gameoverTextRect = self.gameoverText.get_rect(center=(400, 200))
+
+        score = self.calculateScore(scoreTracker)
+        scoreText = "score: {0}".format(score)
+        scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 32)
+        self.scoreText = scoreFont.render(scoreText, True, config.green4)
+        self.scoreTextRect = self.scoreText.get_rect(center=(400, 400))
+
+    def calculateScore(self, scoreTracker):
+        score = 0
+        for scoreMod in scoreTracker:
+            score += config.scores[scoreMod] * scoreTracker[scoreMod]
+        return score
 
     def draw(self, screen):
         screen.fill(config.green3)
         screen.blit(self.gameoverText, self.gameoverTextRect)
+        screen.blit(self.scoreText, self.scoreTextRect)
