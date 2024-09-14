@@ -86,12 +86,8 @@ class GamePlay(Scene):
         self.countdownImg = self.gameboyFont.render(countdownStr, True, config.green4)
         self.countdownImgRect = self.countdownImg.get_rect(left=10, top=0)
 
-
     def update(self):
         self.updateCountdown()
-        if (self.countdown <= 0):
-            quit()
-
 
         if self.movingRoute != None:
 
@@ -164,6 +160,9 @@ class GamePlay(Scene):
                     self.slidingCol = None
 
     def handleEvents(self, events):
+        if (self.countdown <= 0):
+            return GameOverScene()
+
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousePos = pygame.mouse.get_pos()
@@ -269,3 +268,15 @@ class GamePlay(Scene):
 
     def calculateScore(self):
         pass
+
+
+class GameOverScene(Scene):
+    def __init__(self):
+        super().__init__()
+        gameboyFontLarge = pygame.font.Font("assets/Early GameBoy.ttf", 74)
+        self.gameoverText = gameboyFontLarge.render("Game Over", True, config.green4)
+        self.gameoverTextRect = self.gameoverText.get_rect(center=(400, 200))
+
+    def draw(self, screen):
+        screen.fill(config.green3)
+        screen.blit(self.gameoverText, self.gameoverTextRect)
