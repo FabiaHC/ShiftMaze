@@ -27,7 +27,7 @@ yOffset = 72
 
 scores = {
     "GOAL" : 1000,
-    "GOAL_STEPS" : 1000,
+    "GOAL_STEPS" : 200,
     "MAZE_SHIFTING" : -100,
     "PLAYER_SHIFTING" : -100,
     "GOAL_SHIFTING" : -100,
