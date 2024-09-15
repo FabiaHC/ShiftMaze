@@ -214,10 +214,11 @@ class GamePlay(Scene):
                     start = (self.playerY, self.playerX)
                     end = (row, column)
                     self.movingRoute = findRoute(self.tileBoard, start, end)
-                    goalLoc = (self.goalY, self.goalX)
-                    if goalLoc in self.movingRoute:
-                        goalRouteIndex = self.movingRoute.index(goalLoc)
-                        self.movingRoute = self.movingRoute[:goalRouteIndex+1]
+                    if self.movingRoute != None:
+                        goalLoc = (self.goalY, self.goalX)
+                        if goalLoc in self.movingRoute:
+                            goalRouteIndex = self.movingRoute.index(goalLoc)
+                            self.movingRoute = self.movingRoute[:goalRouteIndex+1]
 
     def draw(self, screen):
         screen.fill(config.green3)
