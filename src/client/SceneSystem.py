@@ -28,6 +28,8 @@ class MainMenu(Scene):
         self.titleTextRect = self.titleText.get_rect(center=(400, 300))
         self.startText = gameboyFontSmall.render("Press SPACE To Start!", True, config.green4)
         self.startTextRect = self.startText.get_rect(center=(400, 500))
+        self.leaderboardText = gameboyFontSmall.render("Press TAB To Show Leaderboard!", True, config.green4)
+        self.leaderboardTextRect = self.leaderboardText.get_rect(center=(400, 550))
 
     def update(self):
         pass
@@ -37,11 +39,32 @@ class MainMenu(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     return GamePlay()
+                if event.key == pygame.K_TAB:
+                    return Leaderboard()
 
     def draw(self, screen):
         screen.fill(config.green3)
         screen.blit(self.titleText, self.titleTextRect)
         screen.blit(self.startText, self.startTextRect)
+        screen.blit(self.leaderboardText, self.leaderboardTextRect)
+
+
+class Leaderboard(Scene):
+    def __init__(self):
+        super().__init__()
+        gameboyFontSmall = pygame.font.Font("assets/Early GameBoy.ttf", 20)
+        self.mainmenuText = gameboyFontSmall.render("Press TAB To Return To Main Menu!", True, config.green4)
+        self.mainmenuTextRect = self.mainmenuText.get_rect(center=(400, 550))
+
+    def handleEvents(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_TAB:
+                    return MainMenu()
+
+    def draw(self, screen):
+        screen.fill(config.green3)
+        screen.blit(self.mainmenuText, self.mainmenuTextRect)
 
 
 class GamePlay(Scene):
