@@ -26,7 +26,7 @@ class MainMenu(Scene):
         gameboyFontSmall = pygame.font.Font("assets/Early GameBoy.ttf", 20)
         self.titleText = gameboyFontLarge.render("ShiftMaze", True, config.green4)
         self.titleTextRect = self.titleText.get_rect(center=(400, 300))
-        self.startText = gameboyFontSmall.render("Press Anything To Start!", True, config.green4)
+        self.startText = gameboyFontSmall.render("Press SPACE To Start!", True, config.green4)
         self.startTextRect = self.startText.get_rect(center=(400, 500))
 
     def update(self):
@@ -35,7 +35,8 @@ class MainMenu(Scene):
     def handleEvents(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
-                return GamePlay()
+                if event.key == pygame.K_SPACE:
+                    return GamePlay()
 
     def draw(self, screen):
         screen.fill(config.green3)
@@ -291,7 +292,7 @@ class GameOverScene(Scene):
         self.scoreTextRect = self.scoreText.get_rect(center=(400, 400))
 
         startFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
-        self.playAgainText = startFont.render("Press Anything To Play Again!", True, config.green4)
+        self.playAgainText = startFont.render("Press SPACE To Play Again!", True, config.green4)
         self.playAgainTextRect = self.playAgainText.get_rect(center=(400, 500))
 
     def calculateScore(self, scoreTracker):
@@ -303,7 +304,8 @@ class GameOverScene(Scene):
     def handleEvents(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
-                return GamePlay()
+                if event.key == pygame.K_SPACE:
+                    return GamePlay()
 
     def draw(self, screen):
         screen.fill(config.green3)
