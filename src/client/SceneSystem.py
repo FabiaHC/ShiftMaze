@@ -2,6 +2,8 @@ import config
 from TileBoard import tileGenerator, generateTileBoard, shiftRow, shiftColumn, findRoute
 from characters import loadPlayerImgs
 
+import requests
+import json
 import pygame
 
 
@@ -56,19 +58,38 @@ class Leaderboard(Scene):
         self.mainmenuText = gameboyFontSmall.render("Press TAB To Return To Main Menu!", True, config.green4)
         self.mainmenuTextRect = self.mainmenuText.get_rect(center=(400, 550))
 
-        self.scores = [
-            {"name" : "UserA", "score" : 34},
-            {"name" : "UserB", "score" : 21},
-            {"name" : "UserC", "score" : 13},
-            {"name" : "UserD", "score" : 8},
-            {"name" : "UserE", "score" : 5},
-            {"name" : "UserF", "score" : 3},
-            {"name" : "UserG", "score" : 2},
-            {"name" : "UserH", "score" : 1},
-            {"name" : "UserI", "score" : 1},
-            {"name" : "UserJ", "score" : 0}
-        ]
+        self.scores = []
+        self.requestLeaderboardScores()
         self.drawUpScores()
+
+    def requestLeaderboardScores(self):
+        url = self.loadURL()
+        if url == None or url == "":
+            return
+        try:
+            response = requests.get(url)
+            if response.status_code != 200:
+                return
+
+            data = response.json()
+            if data:
+                self.scores = data
+            else:
+                pass
+
+        except (requests.RequestException, ValueError) as e:
+            pass
+
+    def loadURL(self):
+        filepath = "RuntimeConfig.json"
+        try:
+            with open(filepath, 'r') as file:
+                config = json.load(file)
+            url = config.get('server_url', None)
+            return url
+
+        except (FileNotFoundError, json.JSONDecodeError, Exception) as e:
+            return None
 
     def drawUpScores(self):
         self.leaderboardImg = pygame.Surface((800, 600))
