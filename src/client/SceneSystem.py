@@ -56,6 +56,48 @@ class Leaderboard(Scene):
         self.mainmenuText = gameboyFontSmall.render("Press TAB To Return To Main Menu!", True, config.green4)
         self.mainmenuTextRect = self.mainmenuText.get_rect(center=(400, 550))
 
+        self.scores = [
+            {"name" : "UserA", "score" : 34},
+            {"name" : "UserB", "score" : 21},
+            {"name" : "UserC", "score" : 13},
+            {"name" : "UserD", "score" : 8},
+            {"name" : "UserE", "score" : 5},
+            {"name" : "UserF", "score" : 3},
+            {"name" : "UserG", "score" : 2},
+            {"name" : "UserH", "score" : 1},
+            {"name" : "UserI", "score" : 1},
+            {"name" : "UserJ", "score" : 0}
+        ]
+        self.drawUpScores()
+
+    def drawUpScores(self):
+        self.leaderboardImg = pygame.Surface((800, 600))
+        self.leaderboardImgRect = self.leaderboardImg.get_rect(center=(400, 300))
+        self.leaderboardImg.fill(config.green3)
+        scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 30)
+
+        scoreY = 50
+        placeCounter = 1
+        for score in self.scores:
+            placeCounterText = scoreFont.render(str(placeCounter), True, config.green4)
+            nameText = scoreFont.render(score["name"], True, config.green4)
+            scoreValueText = scoreFont.render(str(score["score"]), True, config.green4)
+
+            placeCounterX = 50
+            nameX = 150
+            scoreX = 500
+
+            placeCounterRect = placeCounterText.get_rect(midleft=(placeCounterX, scoreY))
+            nameRect = nameText.get_rect(midleft=(nameX, scoreY))
+            scoreValueRect = scoreValueText.get_rect(midleft=(scoreX, scoreY))
+
+            self.leaderboardImg.blit(placeCounterText, placeCounterRect)
+            self.leaderboardImg.blit(nameText, nameRect)
+            self.leaderboardImg.blit(scoreValueText, scoreValueRect)
+
+            placeCounter += 1
+            scoreY += 40
+
     def handleEvents(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -63,7 +105,7 @@ class Leaderboard(Scene):
                     return MainMenu()
 
     def draw(self, screen):
-        screen.fill(config.green3)
+        screen.blit(self.leaderboardImg, self.leaderboardImgRect)
         screen.blit(self.mainmenuText, self.mainmenuTextRect)
 
 
