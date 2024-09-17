@@ -1,6 +1,7 @@
 import config
 from TileBoard import tileGenerator, generateTileBoard, shiftRow, shiftColumn, findRoute
 from characters import loadPlayerImgs
+from GameUtils import loadURL
 
 import requests
 import json
@@ -33,9 +34,6 @@ class MainMenu(Scene):
         self.leaderboardText = gameboyFontSmall.render("Press TAB To Show Leaderboard!", True, config.green4)
         self.leaderboardTextRect = self.leaderboardText.get_rect(center=(400, 550))
 
-    def update(self):
-        pass
-
     def handleEvents(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -63,7 +61,7 @@ class Leaderboard(Scene):
         self.drawUpScores()
 
     def requestLeaderboardScores(self):
-        url = self.loadURL()
+        url = loadURL()
 
         if url == None or url == "":
             return
@@ -82,17 +80,6 @@ class Leaderboard(Scene):
 
         except (requests.RequestException, ValueError) as e:
             pass
-
-    def loadURL(self):
-        filepath = "RuntimeConfig.json"
-        try:
-            with open(filepath, 'r') as file:
-                config = json.load(file)
-            url = config.get('server_url', None)
-            return url
-
-        except (FileNotFoundError, json.JSONDecodeError, Exception) as e:
-            return None
 
     def drawUpScores(self):
         self.leaderboardImg = pygame.Surface((800, 600))
@@ -444,7 +431,7 @@ class NameSubmit(Scene):
                     self.inputText += event.unicode
 
     def submitScore(self, name, score):
-        url = self.loadURL()
+        url = loadURL()
         if url == None or url == "":
             return
         url += "/add-score"
@@ -457,17 +444,6 @@ class NameSubmit(Scene):
                 return
         except (requests.RequestException, ValueError) as e:
             pass
-
-    def loadURL(self):
-        filepath = "RuntimeConfig.json"
-        try:
-            with open(filepath, 'r') as file:
-                config = json.load(file)
-            url = config.get('server_url', None)
-            return url
-
-        except (FileNotFoundError, json.JSONDecodeError, Exception) as e:
-            return None
 
     def draw(self, screen):
         screen.fill(config.green3)
