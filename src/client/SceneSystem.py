@@ -64,8 +64,11 @@ class Leaderboard(Scene):
 
     def requestLeaderboardScores(self):
         url = self.loadURL()
+
         if url == None or url == "":
             return
+        url += "/get-leaderboard"
+
         try:
             response = requests.get(url)
             if response.status_code != 200:
@@ -371,8 +374,8 @@ class GameOverScene(Scene):
         self.gameoverText = gameoverFont.render("Game Over", True, config.green4)
         self.gameoverTextRect = self.gameoverText.get_rect(center=(400, 200))
 
-        score = self.calculateScore(scoreTracker)
-        scoreText = "score: {0}".format(score)
+        self.score = self.calculateScore(scoreTracker)
+        scoreText = "score: {0}".format(self.score)
         scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 32)
         self.scoreText = scoreFont.render(scoreText, True, config.green4)
         self.scoreTextRect = self.scoreText.get_rect(center=(400, 400))
@@ -380,6 +383,10 @@ class GameOverScene(Scene):
         startFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
         self.playAgainText = startFont.render("Press SPACE To Play Again!", True, config.green4)
         self.playAgainTextRect = self.playAgainText.get_rect(center=(400, 500))
+
+        submitScoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
+        self.submitScoreText = submitScoreFont.render("Press ENTER To Input Name!", True, config.green4)
+        self.submitScoreTextRect = self.submitScoreText.get_rect(center=(400, 550))
 
     def calculateScore(self, scoreTracker):
         score = 0
@@ -392,9 +399,78 @@ class GameOverScene(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     return GamePlay()
+                if event.key == pygame.K_RETURN:
+                    return NameSubmit(self.score)
 
     def draw(self, screen):
         screen.fill(config.green3)
         screen.blit(self.gameoverText, self.gameoverTextRect)
         screen.blit(self.scoreText, self.scoreTextRect)
         screen.blit(self.playAgainText, self.playAgainTextRect)
+        screen.blit(self.submitScoreText, self.submitScoreTextRect)
+
+
+class NameSubmit(Scene):
+    def __init__(self, score):
+        super().__init__()
+        self.score = score
+
+        namePromptFont = pygame.font.Font("assets/Early GameBoy.ttf", 40)
+        self.nameFont = pygame.font.Font("assets/Early GameBoy.ttf", 50)
+        self.namePrompt = namePromptFont.render("Please enter name:", True, config.green4)
+        self.namePromptRect = self.namePrompt.get_rect(center=(400, 50))
+        self.inputText = ""
+
+        submitScoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
+        self.submitScoreText = submitScoreFont.render("Press ENTER To Submit Score!", True, config.green4)
+        self.submitScoreTextRect = self.submitScoreText.get_rect(center=(400, 550))
+
+    def update(self):
+        nameDisplayText = self.inputText.ljust(10, ".")
+        self.nameDisplayImg = self.nameFont.render(nameDisplayText, True, config.green4)
+        self.nameDisplayImgRect = self.namePrompt.get_rect(center=(500, 300))
+
+    def handleEvents(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return MainMenu()
+                elif event.key == pygame.K_RETURN:
+                    self.submitScore(self.inputText, self.score)
+                    return Leaderboard()
+                elif event.key == pygame.K_BACKSPACE:
+                    self.inputText = self.inputText[:-1]
+                elif len(self.inputText) < 10 and event.unicode.isprintable():
+                    self.inputText += event.unicode
+
+    def submitScore(self, name, score):
+        url = self.loadURL()
+        if url == None or url == "":
+            return
+        url += "/add-score"
+
+        payload = {'name': name, 'score': score}
+
+        try:
+            response = requests.post(url, json=payload)
+            if response.status_code != 200:
+                return
+        except (requests.RequestException, ValueError) as e:
+            pass
+
+    def loadURL(self):
+        filepath = "RuntimeConfig.json"
+        try:
+            with open(filepath, 'r') as file:
+                config = json.load(file)
+            url = config.get('server_url', None)
+            return url
+
+        except (FileNotFoundError, json.JSONDecodeError, Exception) as e:
+            return None
+
+    def draw(self, screen):
+        screen.fill(config.green3)
+        screen.blit(self.namePrompt, self.namePromptRect)
+        screen.blit(self.nameDisplayImg, self.nameDisplayImgRect)
+        screen.blit(self.submitScoreText, self.submitScoreTextRect)
