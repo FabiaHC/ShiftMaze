@@ -96,11 +96,11 @@ class Leaderboard(Scene):
 
             placeCounterX = 50
             nameX = 150
-            scoreX = 500
+            scoreX = 750
 
             placeCounterRect = placeCounterText.get_rect(midleft=(placeCounterX, scoreY))
             nameRect = nameText.get_rect(midleft=(nameX, scoreY))
-            scoreValueRect = scoreValueText.get_rect(midleft=(scoreX, scoreY))
+            scoreValueRect = scoreValueText.get_rect(midright=(scoreX, scoreY))
 
             self.leaderboardImg.blit(placeCounterText, placeCounterRect)
             self.leaderboardImg.blit(nameText, nameRect)
