@@ -126,12 +126,12 @@ class GamePlay(Scene):
         self.tiles = tileGenerator()
         self.playerImgs = loadPlayerImgs()
 
-        self.scoreTracker = {}
-        for scoreMod in config.scores:
-            self.scoreTracker[scoreMod] = 0
-        self.scoreTracker["INTERMEDIATE_STEPS"] = 0
+        self.score = 0
 
         self.gameboyFont = pygame.font.Font("assets/Early GameBoy.ttf", 30)
+        self.scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 24)
+        self.scoreImg = self.scoreFont.render(str(self.score), True, config.green4)
+        self.scoreImgRect = self.scoreImg.get_rect(left=10, top=40)
 
         self.countdown = 30.00
         self.reset()
@@ -242,7 +242,7 @@ class GamePlay(Scene):
 
     def handleEvents(self, events):
         if (self.countdown <= 0):
-            return GameOverScene(self.scoreTracker)
+            return GameOverScene(self.score)
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -301,6 +301,7 @@ class GamePlay(Scene):
         screen.fill(config.green3)
 
         screen.blit(self.countdownImg, self.countdownImgRect)
+        screen.blit(self.scoreImg, self.scoreImgRect)
 
         xOffset = config.xOffset
         yOffset = config.yOffset
@@ -350,18 +351,20 @@ class GamePlay(Scene):
         screen.blit(self.currentPlayerImg, (xOffset+playerOffsetX, yOffset+playerOffsetY))
 
     def updateScore(self, scoreMod):
-        self.scoreTracker[scoreMod] += 1
+        self.score += config.scores[scoreMod]
+        self.scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 24)
+        self.scoreImg = self.scoreFont.render(str(self.score), True, config.green4)
 
 
 class GameOverScene(Scene):
-    def __init__(self, scoreTracker):
+    def __init__(self, score):
         super().__init__()
 
         gameoverFont = pygame.font.Font("assets/Early GameBoy.ttf", 74)
         self.gameoverText = gameoverFont.render("Game Over", True, config.green4)
         self.gameoverTextRect = self.gameoverText.get_rect(center=(400, 200))
 
-        self.score = self.calculateScore(scoreTracker)
+        self.score = score
         scoreText = "score: {0}".format(self.score)
         scoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 32)
         self.scoreText = scoreFont.render(scoreText, True, config.green4)
@@ -374,12 +377,6 @@ class GameOverScene(Scene):
         submitScoreFont = pygame.font.Font("assets/Early GameBoy.ttf", 20)
         self.submitScoreText = submitScoreFont.render("Press ENTER To Input Name!", True, config.green4)
         self.submitScoreTextRect = self.submitScoreText.get_rect(center=(400, 550))
-
-    def calculateScore(self, scoreTracker):
-        score = 0
-        for scoreMod in scoreTracker:
-            score += config.scores[scoreMod] * scoreTracker[scoreMod]
-        return score
 
     def handleEvents(self, events):
         for event in events:
