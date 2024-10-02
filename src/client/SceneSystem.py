@@ -133,15 +133,23 @@ class GamePlay(Scene):
         self.scoreImg = self.scoreFont.render(str(self.score), True, config.green4)
         self.scoreImgRect = self.scoreImg.get_rect(left=10, top=40)
 
-        self.countdown = 30.00
+        #countdown settings
+        self.countdown = 30.00          # current countdown
+        self.roundCountdownInc = 30     # countdown increase per round
+        self.roundCountdownIncDelta = -2# countdown increase change per round
+        self.roundCountdownIncMin = 6   # minimum countdown increase per round
+        self.roundCountdownMax = 60     # max countdown
         self.reset()
 
     def reset(self):
         self.tileBoard = generateTileBoard()
 
-        self.countdown += 30
-        if self.countdown > 99.99:
-            self.countdown = 99.99
+        self.countdown += self.roundCountdownInc                # update countdown
+        self.roundCountdownInc += self.roundCountdownIncDelta   # update countdown increase per round
+        if self.roundCountdownInc < self.roundCountdownIncMin:  # make sure it's not too low
+            self.roundCountdownInc = self.roundCountdownIncMin
+        if self.countdown > self.roundCountdownMax:             # make sure countdown is not too high
+            self.countdown = self.roundCountdownMax
 
         self.playerDir = "right"
         self.currentPlayerImg = self.playerImgs[self.playerDir][1]
