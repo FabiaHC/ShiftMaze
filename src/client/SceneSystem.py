@@ -137,7 +137,7 @@ class GamePlay(Scene):
         self.countdown = 30.00          # current countdown
         self.roundCountdownInc = 30     # countdown increase per round
         self.roundCountdownIncDelta = -2# countdown increase change per round
-        self.roundCountdownIncMin = 6   # minimum countdown increase per round
+        self.roundCountdownIncMin = 8   # minimum countdown increase per round
         self.roundCountdownMax = 60     # max countdown
         self.reset()
 
